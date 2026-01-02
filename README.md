@@ -1,6 +1,7 @@
 # TaskFlow - Gestionnaire de Projets et Tâches
 
 TaskFlow est une Single Page Application (SPA) développée avec Vue.js 3 qui permet aux utilisateurs de gérer leurs projets et tâches quotidiennes. L'application utilise Firebase pour l'authentification, la base de données et l'hébergement.
+## Ce projet a été réalisé en binôme dans le cadre du cours sur Vue.js 3 et Firebase.(ZINEB EL ARBAOUI && IMANE EL ARRACH)
 ## URL de l'application 
 L'application sera accessible sur https://vue-kanban-15ca8.web.app
 ## 🚀 Fonctionnalités
