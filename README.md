@@ -65,7 +65,7 @@ L'application sera accessible sur http://localhost:5173
 
 ## 📁 Structure du Projet
 
-
+```
 taskflow-starter/
 ├── src/
 │   ├── assets/          # Fichiers statiques (CSS)
@@ -93,6 +93,7 @@ taskflow-starter/
 ├── package.json
 ├── vite.config.js
 └── README.md
+```
 
 
 ## 🎯 Utilisation
