@@ -1,7 +1,8 @@
 # TaskFlow - Gestionnaire de Projets et Tâches
 
 TaskFlow est une Single Page Application (SPA) développée avec Vue.js 3 qui permet aux utilisateurs de gérer leurs projets et tâches quotidiennes. L'application utilise Firebase pour l'authentification, la base de données et l'hébergement.
-
+## URL de l'application 
+L'application sera accessible sur https://vue-kanban-15ca8.web.app
 ## 🚀 Fonctionnalités
 
 ### Module d'Authentification
@@ -25,13 +26,13 @@ TaskFlow est une Single Page Application (SPA) développée avec Vue.js 3 qui pe
 
 ## 🛠️ Technologies Utilisées
 
-- **Vue.js 3** (Composition API, Script Setup)
-- **Vue Router** pour la navigation
-- **Pinia** pour la gestion d'état
-- **Firebase Authentication** (Email/Password & Google)
-- **Cloud Firestore** pour la base de données temps réel
-- **Tailwind CSS** pour le style
-- **Vite** comme outil de build
+- *Vue.js 3* (Composition API, Script Setup)
+- *Vue Router* pour la navigation
+- *Pinia* pour la gestion d'état
+- *Firebase Authentication* (Email/Password & Google)
+- *Cloud Firestore* pour la base de données temps réel
+- *Tailwind CSS* pour le style
+- *Vite* comme outil de build
 
 ## 📋 Prérequis
 
@@ -41,123 +42,30 @@ TaskFlow est une Single Page Application (SPA) développée avec Vue.js 3 qui pe
 
 ## 🔧 Installation
 
-1. **Cloner le dépôt**
-   ```bash
-   git clone <url-du-depot>
+1. *Cloner le dépôt*
+   bash
+   git clone https://github.com/zineb-elarbaoui/TaskFlow-manager.git
    cd taskflow-starter
-   ```
+   
 
-2. **Installer les dépendances**
-   ```bash
+2. *Installer les dépendances*
+   bash
    npm install
-   ```
-
-3. **Configurer Firebase**
    
-   Ouvrez le fichier `src/firebase/config.js` et remplacez la configuration par celle de votre projet Firebase :
-   
-   ```javascript
-   const firebaseConfig = {
-     apiKey: "VOTRE_API_KEY",
-     authDomain: "VOTRE_AUTH_DOMAIN",
-     projectId: "VOTRE_PROJECT_ID",
-     storageBucket: "VOTRE_STORAGE_BUCKET",
-     messagingSenderId: "VOTRE_MESSAGING_SENDER_ID",
-     appId: "VOTRE_APP_ID"
-   };
-   ```
 
-4. **Configurer Firebase Authentication**
-   
-   Dans la console Firebase :
-   - Activez l'authentification par Email/Password
-   - Activez le provider Google
-
-5. **Configurer Firestore**
-   
-   Dans la console Firebase :
-   - Créez une base de données Firestore en mode production ou test
-   - Configurez les règles de sécurité (voir ci-dessous)
-   - **Important** : Créez les index composites suivants (Firestore > Index) :
-     - Collection: `projects`
-       - Champs: `userId` (Ascending), `createdAt` (Descending)
-     - Collection: `projects/{projectId}/tasks`
-       - Champs: `createdAt` (Ascending)
-     
-     *Note: Si vous ne créez pas ces index, l'application fonctionnera toujours mais utilisera un tri côté client*
-
-## 🔐 Règles de Sécurité Firestore
-
-Ajoutez ces règles dans la console Firebase (Firestore > Règles) :
-
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    // Règles pour les projets
-    match /projects/{projectId} {
-      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      
-      // Règles pour les tâches (sous-collection)
-      match /tasks/{taskId} {
-        allow read, write: if request.auth != null;
-      }
-    }
-  }
-}
-```
 
 ## 🚀 Lancement en Développement
 
-```bash
+bash
 npm run dev
-```
 
-L'application sera accessible sur `http://localhost:5173`
 
-## 📦 Build pour la Production
+L'application sera accessible sur http://localhost:5173
 
-```bash
-npm run build
-```
-
-Les fichiers optimisés seront générés dans le dossier `dist/`.
-
-## 🌐 Déploiement sur Firebase Hosting
-
-1. **Installer Firebase CLI** (si ce n'est pas déjà fait)
-   ```bash
-   npm install -g firebase-tools
-   ```
-
-2. **Se connecter à Firebase**
-   ```bash
-   firebase login
-   ```
-
-3. **Initialiser Firebase Hosting** (si ce n'est pas déjà fait)
-   ```bash
-   firebase init hosting
-   ```
-   
-   Répondez aux questions :
-   - Sélectionnez votre projet Firebase
-   - Dossier public : `dist`
-   - Configurez comme SPA : `Yes`
-   - Fichiers à ignorer : `index.html` (ou laissez vide)
-
-4. **Déployer**
-   ```bash
-   npm run build
-   firebase deploy --only hosting
-   ```
-
-Votre application sera accessible via l'URL fournie par Firebase Hosting.
 
 ## 📁 Structure du Projet
 
-```
+
 taskflow-starter/
 ├── src/
 │   ├── assets/          # Fichiers statiques (CSS)
@@ -185,21 +93,21 @@ taskflow-starter/
 ├── package.json
 ├── vite.config.js
 └── README.md
-```
+
 
 ## 🎯 Utilisation
 
-1. **Inscription/Connexion**
+1. *Inscription/Connexion*
    - Accédez à la page d'authentification
    - Créez un compte ou connectez-vous avec email/mot de passe
    - Ou utilisez la connexion Google
 
-2. **Créer un Projet**
+2. *Créer un Projet*
    - Sur le Dashboard, cliquez sur "Nouveau Projet"
    - Remplissez le formulaire (nom, description, couleur)
    - Cliquez sur "Créer"
 
-3. **Gérer les Tâches**
+3. *Gérer les Tâches*
    - Ouvrez un projet depuis le Dashboard
    - Ajoutez des tâches avec le formulaire
    - Déplacez les tâches entre les colonnes (À faire, En cours, Terminé)
@@ -207,33 +115,11 @@ taskflow-starter/
 
 ## 🔄 Synchronisation Temps Réel
 
-L'application utilise les `onSnapshot` de Firestore pour la synchronisation en temps réel. Si vous ouvrez l'application sur plusieurs onglets, les modifications apparaîtront immédiatement sur tous les onglets.
+L'application utilise les onSnapshot de Firestore pour la synchronisation en temps réel. Si vous ouvrez l'application sur plusieurs onglets, les modifications apparaîtront immédiatement sur tous les onglets.
 
 ## 📝 Notes
 
 - Les projets sont associés à l'utilisateur qui les crée
 - Les tâches sont stockées dans une sous-collection de chaque projet
 - Toutes les opérations sont sécurisées par les règles Firestore
-
-## 🐛 Dépannage
-
-**Problème d'authentification**
-- Vérifiez que l'authentification Email/Password et Google sont activées dans Firebase
-- Vérifiez la configuration dans `src/firebase/config.js`
-
-**Problème de données**
-- Vérifiez les règles de sécurité Firestore
-- Vérifiez que la base de données est créée en mode test ou production
-
-**Erreur de build**
-- Supprimez `node_modules` et `package-lock.json`
-- Réinstallez avec `npm install`
-
-## 📄 Licence
-
-Ce projet est un projet éducatif.
-
-## 👨‍💻 Auteur
-
-Projet développé dans le cadre d'un cours sur Vue.js 3 et Firebase.
 
