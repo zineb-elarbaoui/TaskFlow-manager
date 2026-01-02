@@ -44,21 +44,24 @@ L'application sera accessible sur https://vue-kanban-15ca8.web.app
 
 1. *Cloner le dépôt*
    bash
+   ```
    git clone https://github.com/zineb-elarbaoui/TaskFlow-manager.git
    cd taskflow-starter
-   
+   ```
 
-2. *Installer les dépendances*
+3. *Installer les dépendances*
    bash
+   ```
    npm install
-   
+   ```
 
 
 ## 🚀 Lancement en Développement
 
 bash
+```
 npm run dev
-
+```
 
 L'application sera accessible sur http://localhost:5173
 
