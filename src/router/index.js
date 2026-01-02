@@ -1,39 +1,68 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { auth } from '@/firebase/config'
-import LoginView from '../views/LoginView.vue'
+import { useAuthStore } from '../stores/authStore'
+
+// Views
+import HomeView from '../views/HomeView.vue'
+import AuthView from '../views/AuthView.vue'
 import DashboardView from '../views/DashboardView.vue'
+import ProjectDetails from '../views/ProjectDetails.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      name: 'home',
+      component: HomeView
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: LoginView
+      path: '/auth',
+      name: 'auth',
+      component: AuthView
     },
     {
       path: '/dashboard',
-      name: 'Dashboard',
+      name: 'dashboard',
       component: DashboardView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/project/:id',
+      name: 'project',
+      component: ProjectDetails,
       meta: { requiresAuth: true }
     }
   ]
 })
 
+// 🔐 Auth Guard
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  const currentUser = auth.currentUser
+  const authStore = useAuthStore()
 
-  if (requiresAuth && !currentUser) {
-    next('/login')
-  } else if (!requiresAuth && currentUser && to.path === '/login') {
-    next('/dashboard')
-  } else {
+  const checkAuth = () => {
+    // Si route protégée et utilisateur non connecté
+    if (to.meta.requiresAuth && !authStore.user) {
+      next('/auth')
+      return
+    }
+
+    // Si déjà connecté, empêcher l'accès à /auth
+    if (to.path === '/auth' && authStore.user) {
+      next('/dashboard')
+      return
+    }
+
     next()
+  }
+
+  // Attendre Firebase Auth au refresh
+  if (authStore.loading) {
+    const unsubscribe = authStore.$subscribe(() => {
+      unsubscribe()
+      checkAuth()
+    })
+  } else {
+    checkAuth()
   }
 })
 
